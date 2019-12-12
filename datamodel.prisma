@@ -1,0 +1,6 @@
+type Product {
+  id: ID! @id
+  title: String!
+  description: String!
+  priority: Int
+}

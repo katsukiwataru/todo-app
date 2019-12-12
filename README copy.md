@@ -1,4 +1,8 @@
-# todo-app
+# household-account-book-app
+
+## Overview
+
+Repository for creating a web app that is the subject of Freee corporation
 
 ## Usage
 
