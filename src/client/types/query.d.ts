@@ -3,4 +3,5 @@ declare type Products = {
   title: string;
   description: string;
   priority: number;
+  progress: boolean;
 };

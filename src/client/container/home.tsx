@@ -12,6 +12,7 @@ const GET_PRODUCTS = gql`
       title
       description
       priority
+      progress
     }
   }
 `;
@@ -23,6 +24,7 @@ const DELETE_PRODUCTS = gql`
       title
       description
       priority
+      progress
     }
   }
 `;
@@ -40,6 +42,10 @@ const Home: React.FC = () => {
     await refetch();
   };
 
+  if (queryData) {
+    console.log(queryData.products);
+  }
+
   return (
     <div>
       {loading && <Loading>loading</Loading>}
@@ -47,12 +53,20 @@ const Home: React.FC = () => {
       {mutationError && <Error>ネットワークエラーです。削除できませんでした。</Error>}
       {queryData &&
         queryData.products.map(
-          (product: { id: string | number | undefined; title: React.ReactNode; description: React.ReactNode }) => {
+          (product: {
+            id: string | number | undefined;
+            title: string;
+            description: string;
+            priority: number;
+            progress: boolean;
+          }) => {
             return (
               <React.Fragment key={product.id}>
                 <div>
                   <p>{product.title}</p>
                   <p>{product.description}</p>
+                  <p>{product.priority}</p>
+                  {/* <p>progress{product.progress}</p> */}
                   <div>
                     <Link to={`/post/${product.id}`}>編集</Link>
                     <p onClick={() => removeData(product.id as string)}>削除</p>
