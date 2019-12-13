@@ -72,8 +72,8 @@ const PostDesc: React.FC<Props> = ({ match }) => {
     if (!eventTarget.value) {
       setPriority(null);
     }
-    const priceNumber = parseInt(eventTarget.value, 10);
-    setPriority(priceNumber);
+    const priorityNumber = parseInt(eventTarget.value, 10);
+    setPriority(priorityNumber);
   };
 
   const setInputProg = (event: React.ChangeEvent<HTMLInputElement>) => {
