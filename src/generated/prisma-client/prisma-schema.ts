@@ -42,7 +42,8 @@ type Product {
   id: ID!
   title: String!
   description: String!
-  priority: Int
+  priority: Int!
+  progress: Boolean!
 }
 
 type ProductConnection {
@@ -55,7 +56,8 @@ input ProductCreateInput {
   id: ID
   title: String!
   description: String!
-  priority: Int
+  priority: Int!
+  progress: Boolean!
 }
 
 type ProductEdge {
@@ -72,13 +74,16 @@ enum ProductOrderByInput {
   description_DESC
   priority_ASC
   priority_DESC
+  progress_ASC
+  progress_DESC
 }
 
 type ProductPreviousValues {
   id: ID!
   title: String!
   description: String!
-  priority: Int
+  priority: Int!
+  progress: Boolean!
 }
 
 type ProductSubscriptionPayload {
@@ -103,12 +108,14 @@ input ProductUpdateInput {
   title: String
   description: String
   priority: Int
+  progress: Boolean
 }
 
 input ProductUpdateManyMutationInput {
   title: String
   description: String
   priority: Int
+  progress: Boolean
 }
 
 input ProductWhereInput {
@@ -162,6 +169,8 @@ input ProductWhereInput {
   priority_lte: Int
   priority_gt: Int
   priority_gte: Int
+  progress: Boolean
+  progress_not: Boolean
   AND: [ProductWhereInput!]
   OR: [ProductWhereInput!]
   NOT: [ProductWhereInput!]

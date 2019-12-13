@@ -109,7 +109,9 @@ export type ProductOrderByInput =
   | "description_ASC"
   | "description_DESC"
   | "priority_ASC"
-  | "priority_DESC";
+  | "priority_DESC"
+  | "progress_ASC"
+  | "progress_DESC";
 
 export type MutationType = "CREATED" | "UPDATED" | "DELETED";
 
@@ -117,13 +119,8 @@ export interface ProductCreateInput {
   id?: Maybe<ID_Input>;
   title: String;
   description: String;
-  priority?: Maybe<Int>;
-}
-
-export interface ProductUpdateInput {
-  title?: Maybe<String>;
-  description?: Maybe<String>;
-  priority?: Maybe<Int>;
+  priority: Int;
+  progress: Boolean;
 }
 
 export interface ProductWhereInput {
@@ -177,15 +174,25 @@ export interface ProductWhereInput {
   priority_lte?: Maybe<Int>;
   priority_gt?: Maybe<Int>;
   priority_gte?: Maybe<Int>;
+  progress?: Maybe<Boolean>;
+  progress_not?: Maybe<Boolean>;
   AND?: Maybe<ProductWhereInput[] | ProductWhereInput>;
   OR?: Maybe<ProductWhereInput[] | ProductWhereInput>;
   NOT?: Maybe<ProductWhereInput[] | ProductWhereInput>;
+}
+
+export interface ProductUpdateInput {
+  title?: Maybe<String>;
+  description?: Maybe<String>;
+  priority?: Maybe<Int>;
+  progress?: Maybe<Boolean>;
 }
 
 export interface ProductUpdateManyMutationInput {
   title?: Maybe<String>;
   description?: Maybe<String>;
   priority?: Maybe<Int>;
+  progress?: Maybe<Boolean>;
 }
 
 export interface ProductSubscriptionWhereInput {
@@ -243,7 +250,8 @@ export interface ProductPreviousValues {
   id: ID_Output;
   title: String;
   description: String;
-  priority?: Int;
+  priority: Int;
+  progress: Boolean;
 }
 
 export interface ProductPreviousValuesPromise
@@ -253,6 +261,7 @@ export interface ProductPreviousValuesPromise
   title: () => Promise<String>;
   description: () => Promise<String>;
   priority: () => Promise<Int>;
+  progress: () => Promise<Boolean>;
 }
 
 export interface ProductPreviousValuesSubscription
@@ -262,6 +271,7 @@ export interface ProductPreviousValuesSubscription
   title: () => Promise<AsyncIterator<String>>;
   description: () => Promise<AsyncIterator<String>>;
   priority: () => Promise<AsyncIterator<Int>>;
+  progress: () => Promise<AsyncIterator<Boolean>>;
 }
 
 export interface ProductEdge {
@@ -310,7 +320,8 @@ export interface Product {
   id: ID_Output;
   title: String;
   description: String;
-  priority?: Int;
+  priority: Int;
+  progress: Boolean;
 }
 
 export interface ProductPromise extends Promise<Product>, Fragmentable {
@@ -318,6 +329,7 @@ export interface ProductPromise extends Promise<Product>, Fragmentable {
   title: () => Promise<String>;
   description: () => Promise<String>;
   priority: () => Promise<Int>;
+  progress: () => Promise<Boolean>;
 }
 
 export interface ProductSubscription
@@ -327,6 +339,7 @@ export interface ProductSubscription
   title: () => Promise<AsyncIterator<String>>;
   description: () => Promise<AsyncIterator<String>>;
   priority: () => Promise<AsyncIterator<Int>>;
+  progress: () => Promise<AsyncIterator<Boolean>>;
 }
 
 export interface ProductNullablePromise
@@ -336,6 +349,7 @@ export interface ProductNullablePromise
   title: () => Promise<String>;
   description: () => Promise<String>;
   priority: () => Promise<Int>;
+  progress: () => Promise<Boolean>;
 }
 
 export interface ProductConnection {

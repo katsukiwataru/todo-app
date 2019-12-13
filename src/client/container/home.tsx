@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 // import HomeComp from '../components/homeComp';
-import { useQuery } from 'react-apollo';
+import { useQuery, useMutation } from 'react-apollo';
 import gql from 'graphql-tag';
 
 const GET_PRODUCTS = gql`
@@ -16,33 +16,35 @@ const GET_PRODUCTS = gql`
   }
 `;
 
-// const DELETE_PRODUCTS = gql`
-//   mutation deleteProduct($id: ID!) {
-//     deleteProduct(where: { id: $id }) {
-//       id
-//       name
-//       price
-//     }
-//   }
-// `;
+const DELETE_PRODUCTS = gql`
+  mutation deleteProduct($id: ID!) {
+    deleteProduct(where: { id: $id }) {
+      id
+      title
+      description
+      priority
+    }
+  }
+`;
 
 const Home: React.FC = () => {
-  const { data: queryData, loading, error: queryError } = useQuery<{ products: Products[] }>(GET_PRODUCTS, {
+  const { data: queryData, loading, error: queryError, refetch } = useQuery<{ products: Products[] }>(GET_PRODUCTS, {
     fetchPolicy: 'network-only',
   });
-  // const [deleteProduct, { error: mutationError }] = useMutation<{ products: Products[] }>(DELETE_PRODUCTS, {
-  //   variables: { id: DELETE_PRODUCTS },
-  // });
+  const [deleteProduct, { error: mutationError }] = useMutation<{ products: Products[] }>(DELETE_PRODUCTS, {
+    variables: { id: DELETE_PRODUCTS },
+  });
 
-  // const removeData = async (productId: string) => {
-  //   await deleteProduct({ variables: { id: productId } });
-  //   await refetch();
-  // };
+  const removeData = async (productId: string) => {
+    await deleteProduct({ variables: { id: productId } });
+    await refetch();
+  };
 
   return (
     <div>
       {loading && <Loading>loading</Loading>}
-      {queryError && <Error>ネットワークエラーです。情報を取得できませんでした。</Error>}
+      {queryError && <Error>ネットワークエラーです。取得できませんでした。</Error>}
+      {mutationError && <Error>ネットワークエラーです。削除できませんでした。</Error>}
       {queryData &&
         queryData.products.map(
           (product: { id: string | number | undefined; title: React.ReactNode; description: React.ReactNode }) => {
@@ -53,7 +55,7 @@ const Home: React.FC = () => {
                   <p>{product.description}</p>
                   <div>
                     <Link to={`/post/${product.id}`}>編集</Link>
-                    {/* <p onClick={() => removeData(product.id as string)}>削除</p> */}
+                    <p onClick={() => removeData(product.id as string)}>削除</p>
                   </div>
                 </div>
               </React.Fragment>
