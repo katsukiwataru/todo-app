@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
-// import PostComp from '../components/postComp';
 import history from '../plugins/history';
 import styled from 'styled-components';
 import { useMutation } from 'react-apollo';
 import gql from 'graphql-tag';
 
 const CREATE_PRODUCTS = gql`
-  mutation createProduct($title: String!, $description: String!, $priority: Int!, $progress: Boolean) {
-    createProduct(data: { title: $title, description: $description, priority: $priority, progress: $progress }) {
+  mutation createProduct($title: String!, $description: String!, $priority: Int!) {
+    createProduct(data: { title: $title, description: $description, priority: $priority, progress: false }) {
       id
       title
       description
@@ -22,19 +21,12 @@ const Post: React.FC = () => {
   const [title, setTitle] = useState<string | null>(null);
   const [description, setDesc] = useState<string | null>(null);
   const [priority, setPriority] = useState<number | null>(null);
-  const [progress, setProgress] = useState<boolean | null>(null);
-  const createData = async (
-    productTitle: string,
-    productDescription: string,
-    productPriority: number,
-    productProgress: boolean,
-  ) => {
+  const createData = async (productTitle: string, productDescription: string, productPriority: number) => {
     await createProduct({
       variables: {
         title: productTitle,
         description: productDescription,
         priority: productPriority,
-        progress: productProgress,
       },
     });
     history.push('/');
@@ -64,15 +56,6 @@ const Post: React.FC = () => {
     const priorityNumber = parseInt(eventTarget.value, 10);
     setPriority(priorityNumber);
   };
-
-  const setInputProg = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const eventTarget = event.target as HTMLButtonElement;
-    if (!eventTarget.value) {
-      setPriority(null);
-    }
-    setProgress(true);
-  };
-
   return (
     <div>
       {mutationError && <Error>ネットワークエラーです。</Error>}
@@ -89,14 +72,7 @@ const Post: React.FC = () => {
           <p>priority</p>
           <input type="text" placeholder="" onChange={(event) => setInputPrio(event)} />
         </ProductBox>
-        <ProductBox>
-          <p>progress</p>
-          <input type="text" placeholder="" onChange={(event) => setInputProg(event)} />
-          {/* TODO:  checkbox*/}
-        </ProductBox>
-        <SubmitButton
-          onClick={() => createData(title as string, description as string, priority as number, progress as boolean)}
-        >
+        <SubmitButton onClick={() => createData(title as string, description as string, priority as number)}>
           登録する
         </SubmitButton>
       </FormArea>
