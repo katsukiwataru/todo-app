@@ -28,8 +28,12 @@ docker-compose up
 
 - Open [http://localhost:4466](http://localhost:4466) to view it in the browser.
 
-### TODO
+### タスク
 
-- In the future, deploy using Apollo Engine.
-- Refactor with Apollo-Client and Apollo-Server.
-- [https://www.apollographql.com/docs/tutorial/introduction/](https://www.apollographql.com/docs/tutorial/introduction/)
+5.最もあったら嬉しいと思う機能を一つ以上追加してください
+
+- todo listに優先順位をつけて降順で表示
+
+6.なぜその機能を追加したのかを説明してください
+
+- todoアプリを使う際に優先順位があると何からやって良いのかが明確だと思ったからです。タスクの優先度がないと使い辛いとも思ったからです。
