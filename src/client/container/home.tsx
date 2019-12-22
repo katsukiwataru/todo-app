@@ -4,9 +4,21 @@ import HomeComp from '../components/homeComp';
 import { useQuery, useMutation } from 'react-apollo';
 import gql from 'graphql-tag';
 
-const GET_PRODUCTS = gql`
+const GET_PROGRESSFALSE = gql`
   {
-    products {
+    products(where: { progress: false }) {
+      id
+      title
+      description
+      priority
+      progress
+    }
+  }
+`;
+
+const GET_PROGRESSTRUE = gql`
+  {
+    products(where: { progress: true }) {
       id
       title
       description
@@ -29,7 +41,20 @@ const DELETE_PRODUCTS = gql`
 `;
 
 const Home: React.FC = () => {
-  const { data: queryData, loading, error: queryError, refetch } = useQuery<{ products: Products[] }>(GET_PRODUCTS, {
+  const {
+    data: PROGRESSFALSE_QueryData,
+    loading: PROGRESSFALSE_Loading,
+    error: PROGRESSFALSE_QueryError,
+    refetch: PROGRESSFALSE_Refetch,
+  } = useQuery<{ products: Products[] }>(GET_PROGRESSFALSE, {
+    fetchPolicy: 'network-only',
+  });
+  const {
+    data: PROGRESSTRUE_QueryData,
+    loading: PROGRESSTRUE_Loading,
+    error: PROGRESSTRUE_QueryError,
+    refetch: PROGRESSTRUE_Refetch,
+  } = useQuery<{ products: Products[] }>(GET_PROGRESSTRUE, {
     fetchPolicy: 'network-only',
   });
   const [deleteProduct, { error: mutationError }] = useMutation<{ products: Products[] }>(DELETE_PRODUCTS, {
@@ -38,20 +63,29 @@ const Home: React.FC = () => {
 
   const removeData = async (productId: string) => {
     await deleteProduct({ variables: { id: productId } });
-    await refetch();
+    await PROGRESSFALSE_Refetch();
+    await PROGRESSTRUE_Refetch();
   };
-
-  if (queryData) {
-    console.log(queryData.products);
-  }
 
   return (
     <div>
-      {loading && <Loading>loading</Loading>}
-      {queryError && <Error>ネットワークエラーです。取得できませんでした。</Error>}
+      {(PROGRESSFALSE_Loading || PROGRESSTRUE_Loading) && <Loading>loading</Loading>}
+      {(PROGRESSFALSE_QueryError || PROGRESSTRUE_QueryError) && (
+        <Error>ネットワークエラーです。取得できませんでした。</Error>
+      )}
       {mutationError && <Error>ネットワークエラーです。削除できませんでした。</Error>}
-      {queryData &&
-        queryData.products.map((product) => {
+      <SubTitle>Doing Todo List</SubTitle>
+      {PROGRESSFALSE_QueryData &&
+        PROGRESSFALSE_QueryData.products.map((product) => {
+          return (
+            <React.Fragment key={product.id}>
+              <HomeComp product={product} removeData={removeData} />
+            </React.Fragment>
+          );
+        })}
+      <SubTitle>Done Todo List</SubTitle>
+      {PROGRESSTRUE_QueryData &&
+        PROGRESSTRUE_QueryData.products.map((product) => {
           return (
             <React.Fragment key={product.id}>
               <HomeComp product={product} removeData={removeData} />
@@ -72,6 +106,10 @@ const Error = styled.div`
   font-size: 22px;
   color: red;
   text-align: center;
+`;
+const SubTitle = styled.h2`
+  padding: 10px 30px;
+  margin: 0;
 `;
 
 export default Home;
