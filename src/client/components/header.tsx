@@ -8,11 +8,17 @@ const Header: React.FC = () => {
     <>
       <header>
         <Title>TODO APP</Title>
-        <Link to={`/post/`}>購入した商品の追加</Link>
+        <LinkContent>
+          <Link to={`/post/`}>TODOの追加</Link>
+        </LinkContent>
       </header>
     </>
   );
 };
+
+const LinkContent = styled.div`
+  text-align: center;
+`;
 
 const Title = styled.h1`
   padding: 10px 30px;
