@@ -80,7 +80,7 @@ const PostDesc: React.FC<Props> = ({ match }) => {
     if (!eventTarget.value) {
       setPriority(null);
     }
-    const progBoole = eventTarget.value.toLowerCase() === 'true'
+    const progBoole = eventTarget.value.toLowerCase() === 'true';
     setProgress(progBoole);
   };
 
