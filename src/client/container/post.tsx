@@ -61,15 +61,15 @@ const Post: React.FC = () => {
       {mutationError && <Error>ネットワークエラーです。</Error>}
       <FormArea>
         <ProductBox>
-          <p>title</p>
+          <p>title: string</p>
           <input type="text" placeholder="" onChange={(event) => setInputTitle(event)} />
         </ProductBox>
         <ProductBox>
-          <p>description</p>
+          <p>description: string</p>
           <input type="text" placeholder="" onChange={(event) => setInputDesc(event)} />
         </ProductBox>
         <ProductBox>
-          <p>priority</p>
+          <p>priority: nubmer</p>
           <input type="text" placeholder="" onChange={(event) => setInputPrio(event)} />
         </ProductBox>
         <SubmitButton onClick={() => createData(title as string, description as string, priority as number)}>

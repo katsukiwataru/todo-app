@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { match } from 'react-router-dom';
 import history from '../plugins/history';
 import styled from 'styled-components';
-// import PostDescComp from '../components/postDescComp';
 import { useMutation } from 'react-apollo';
 import gql from 'graphql-tag';
 
@@ -89,21 +88,20 @@ const PostDesc: React.FC<Props> = ({ match }) => {
       {mutationError && <Error>ネットワークエラーです。</Error>}
       <FormArea>
         <ProductBox>
-          <p>title</p>
+          <p>title: string</p>
           <input type="text" placeholder="" onChange={(event) => setInputTitle(event)} />
         </ProductBox>
         <ProductBox>
-          <p>description</p>
+          <p>description: string</p>
           <input type="text" placeholder="" onChange={(event) => setInputDesc(event)} />
         </ProductBox>
         <ProductBox>
-          <p>priority</p>
+          <p>priority: number</p>
           <input type="text" placeholder="" onChange={(event) => setInputPrio(event)} />
         </ProductBox>
         <ProductBox>
-          <p>progress</p>
+          <p>progress: boolean</p>
           <input type="text" placeholder="" onChange={(event) => setInputProg(event)} />
-          {/* TODO:  checkbox*/}
         </ProductBox>
         <SubmitButton
           onClick={() =>
