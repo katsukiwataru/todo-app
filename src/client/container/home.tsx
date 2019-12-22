@@ -6,7 +6,7 @@ import gql from 'graphql-tag';
 
 const GET_PROGRESSFALSE = gql`
   {
-    products(where: { progress: false }) {
+    products(where: { progress: false }, orderBy: priority_DESC) {
       id
       title
       description
@@ -18,7 +18,7 @@ const GET_PROGRESSFALSE = gql`
 
 const GET_PROGRESSTRUE = gql`
   {
-    products(where: { progress: true }) {
+    products(where: { progress: true }, orderBy: priority_DESC) {
       id
       title
       description
